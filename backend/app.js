@@ -6,7 +6,7 @@ const animalRoutes = require('./routes/animals');
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(cors());
 mongoose.connect('mongodb://localhost/petexpo', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use('/api/animals', animalRoutes);

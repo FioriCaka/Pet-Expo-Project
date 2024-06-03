@@ -8,7 +8,7 @@ function Gallery() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get(`https://freetestapi.com/apis/${type}`)
+    axios.get(`http://localhost:3001/api/animals/${type}`)
       .then(response => setAnimals(response.data))
       .catch(error => console.error(error));
   }, [type]);
