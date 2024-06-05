@@ -18,7 +18,7 @@ function Gallery() {
   );
 
   return (
-    <div>
+    <div className="search-filter">
       <select onChange={e => setType(e.target.value)}>
         <option value="cats">Cats</option>
         <option value="dogs">Dogs</option>

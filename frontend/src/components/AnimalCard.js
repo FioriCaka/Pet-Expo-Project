@@ -7,7 +7,7 @@ function AnimalCard({ animal }) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
-    <div>
+    <div className="animal-card" onClick={() => setModalIsOpen(true)}>
       <img src={animal.imageUrl} alt={animal.name} onClick={() => setModalIsOpen(true)} />
       <h3>{animal.name}</h3>
       <p>{animal.origin}</p>
