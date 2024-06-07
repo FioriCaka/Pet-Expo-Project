@@ -23,7 +23,7 @@ function Admin({ token }) {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:3001/api/animals/${type}/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${token}` }
       });
       fetchAnimals();
     } catch (error) {
@@ -34,7 +34,7 @@ function Admin({ token }) {
   return (
     <div>
       <h2>Admin Panel</h2>
-      <AddAnimal />
+      <AddAnimal token={token} />
       <div className="animal-gallery">
         {animals.map((animal) => (
           <div key={animal._id}>

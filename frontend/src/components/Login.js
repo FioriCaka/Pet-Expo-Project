@@ -21,11 +21,11 @@ function Login({ setToken }) {
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Username:
+        Username: 
         <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
       </label>
       <label>
-        Password:
+        Password: 
         <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
       </label>
       <button type="submit">Login</button>

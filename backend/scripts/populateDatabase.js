@@ -1,23 +1,17 @@
 const mongoose = require('mongoose');
-const Animal = require('../models/animal');
+const Animal = require('./models/animal'); 
+const animals = require('./scripts/animals.json'); 
 
-mongoose.connect('mongodb://localhost/petexpo', { useNewUrlParser: true, useUnifiedTopology: true });
+const mongoURI = 'mongodb://localhost:27017/petexpo/animals'; 
 
-const sampleAnimals = [
-  { name: 'Milo', origin: 'USA', type: 'cats', imageUrl: 'https://example.com/milo.jpg' },
-  { name: 'Bella', origin: 'Canada', type: 'dogs', imageUrl: 'https://example.com/bella.jpg' },
-  { name: 'Charlie', origin: 'UK', type: 'birds', imageUrl: 'https://example.com/charlie.jpg' },
-  // Add more sample animals
-];
-
-Animal.insertMany(sampleAnimals)
-  .then(() => {
-    console.log('Sample animals added successfully');
-    mongoose.connection.close();
+mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(async () => {
+    console.log('Connected to MongoDB');
+    await Animal.deleteMany({});
+    await Animal.insertMany(animals);
+    console.log('Database populated!');
+    mongoose.disconnect();
   })
-  .catch((error) => {
-    console.error('Error adding sample animals:', error);
-    mongoose.connection.close();
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB', err);
   });
-
-  
