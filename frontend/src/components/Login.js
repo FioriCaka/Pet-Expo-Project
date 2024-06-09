@@ -10,7 +10,7 @@ function Login({ setToken }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3001/api/auth/login', { username, password });
+      const response = await axios.post('http://localhost:5000/api/auth/login', { username, password });
       setToken(response.data.token);
       navigate('/admin');
     } catch (error) {
@@ -19,17 +19,26 @@ function Login({ setToken }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username: 
-        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-      </label>
-      <label>
-        Password: 
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-      </label>
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <h2>Login</h2>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Username: 
+          <input type="text" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} required 
+          />
+        </label>
+        <label>
+          Password: 
+          <input type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} required 
+          />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+    </div>
   );
 }
 

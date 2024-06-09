@@ -8,13 +8,13 @@ function AnimalCard({ animal }) {
 
   return (
     <div className="animal-card" onClick={() => setModalIsOpen(true)}>
-      <img src={animal.imageUrl} alt={animal.name} onClick={() => setModalIsOpen(true)} />
+      <img src={animal.imageBase64} alt={animal.name} onClick={() => setModalIsOpen(true)} />
       <h3>{animal.name}</h3>
       <p>{animal.origin}</p>
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)}>
         <h2>{animal.name}</h2>
         <p>Origin: {animal.origin}</p>
-        <img src={animal.imageUrl} alt={animal.name} />
+        <img src={animal.imageBase64} alt={animal.name} />
         <button onClick={() => setModalIsOpen(false)}>Close</button>
       </Modal>
     </div>

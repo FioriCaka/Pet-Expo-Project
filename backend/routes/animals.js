@@ -4,6 +4,16 @@ const auth = require('../middleware/auth');
 
 const router = express.Router();
 
+router.get('/', async (req, res) => {
+    try {
+      const animals = await Animal.find();
+      console.log('Animals fetched:', animals); // Log data for debugging
+      res.json(animals);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
+
 router.post('/:type', auth, animalsController.createAnimal);
 router.get('/:type', animalsController.getAllAnimals);
 router.put('/:type/:id', auth, animalsController.updateAnimal);

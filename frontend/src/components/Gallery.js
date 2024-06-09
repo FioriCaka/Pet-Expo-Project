@@ -8,10 +8,16 @@ function Gallery() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    axios.get(`http://localhost:3001/api/animals/${type}`)
-      .then(response => setAnimals(response.data))
-      .catch(error => console.error(error));
-  }, [type]);
+    const fetchAnimals = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/animals');
+        setAnimals(response.data);
+      } catch (error) {
+        console.error('Error fetching animals', error);
+      }
+    };
+    fetchAnimals();
+  }, []);
 
   const filteredAnimals = animals.filter(animal =>
     animal.name.toLowerCase().includes(searchTerm.toLowerCase())

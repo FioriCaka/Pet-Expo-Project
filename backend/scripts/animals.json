@@ -1,15 +1,15 @@
 [
-    {
-      "name": "Poçi",
-      "origin": "Albania",
-      "type": "cats",
-      "imageUrl": "/Users/User/Desktop/mace.jpg"
-    },
-    {
-      "name": "Max",
-      "origin": "Albania",
-      "type": "dogs",
-      "imageUrl": "C:/Users/User/Desktop/Shepherd-dog.jpg"
-    }
-  ]
+  {
+    "name": "Poçi",
+    "origin": "Albania",
+    "type": "cats",
+    "imageUrl": "/Users/User/Desktop/mace.jpg"
+  },
+  {
+    "name": "Max",
+    "origin": "Albania",
+    "type": "dogs",
+    "imageUrl": "C:/Users/User/Desktop/Shepherd-dog.jpg"
+  }
+]
   

@@ -11,10 +11,9 @@ const animalSchema = new mongoose.Schema({
   },
   type: {
     type : String,
-    required : true,
-    enum : ['cats', 'dogs', 'birds', 'other']
+    required : true
   },
-  imageUrl: {
+  imageBase64: {
     type : String,
     required : true
   },

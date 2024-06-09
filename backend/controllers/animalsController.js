@@ -1,8 +1,8 @@
 const Animal = require('../models/animal');
 
 exports.createAnimal = async (req, res) => {
-  const { name, origin, type, imageUrl } = req.body;
-  const animal = new Animal({ name, origin, type, imageUrl });
+  const { name, origin, type, imageBase64 } = req.body;
+  const animal = new Animal({ name, origin, type, imageBase64 });
   await animal.save();
   res.status(201).send(animal);
 };
