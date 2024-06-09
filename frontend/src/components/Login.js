@@ -20,7 +20,7 @@ function Login({ setToken }) {
 
   return (
     <div>
-      <h2>Login</h2>
+      <h2 style={{ padding: '20px', textAlign: 'center' }}>Login</h2>
       <form onSubmit={handleSubmit}>
         <label>
           Username: 
