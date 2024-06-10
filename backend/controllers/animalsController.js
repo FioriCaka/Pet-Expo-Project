@@ -1,35 +1,54 @@
-const Animal = require('../models/animal');
+const Animal = require('../models/Animal');
+const { getAnimals } = require('../db');
 
 exports.createAnimal = async (req, res) => {
   const { name, origin, type, imageBase64 } = req.body;
   const animal = new Animal({ name, origin, type, imageBase64 });
-  await animal.save();
-  res.status(201).send(animal);
+  
+  try{
+    const newAnimal = await animal.save();
+    res.status(201).send(newAnimal);
+  }catch (error){
+    res.status(400).json({ message: error.message });
+  }
+  
 };
 
 exports.getAllAnimals = async (req, res) => {
-  const { type } = req.params;
-  const animals = await Animal.find({ type });
-  res.send(animals);
+  const { type } = req.query;
+  
+  try{
+    const animals = await getAnimals(type);
+    res.json(animals);
+  }catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 exports.updateAnimal = async (req, res) => {
-  const { id } = req.params;
-  const updates = req.body;
-  const animal = await Animal.findByIdAndUpdate(id, updates, { new: true });
-  if (!animal) {
-    return res.status(404).send();
+  try {
+    const animal = await Animal.findById(req.params.id);
+    if (!animal) return res.status(404).json({ message: 'Animal not found' });
+
+    Object.assign(animal, req.body);
+    const updatedAnimal = await animal.save();
+    res.json(updatedAnimal);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
-  res.send(animal);
 };
 
 exports.deleteAnimal = async (req, res) => {
-  const { id } = req.params;
-  const animal = await Animal.findByIdAndDelete(id);
-  if (!animal) {
-    return res.status(404).send();
+  try{
+    const animal = await Animal.findById(req.params.id);
+    if (!animal) return res.status(404).json({ message: 'Animal not found' });
+
+    await animal.remove();
+    res.json({ message: 'Animal deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-  res.send(animal);
+    
 };
 
 exports.searchAnimals = async (req, res) => {

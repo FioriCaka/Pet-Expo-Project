@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import AnimalCard from './AnimalCard';
 
 function Gallery() {
@@ -10,18 +10,14 @@ function Gallery() {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/animals');
+        const response = await api.get('/animals', { params: { type } });
         setAnimals(response.data);
       } catch (error) {
         console.error('Error fetching animals', error);
       }
     };
     fetchAnimals();
-  }, []);
-
-  const filteredAnimals = animals.filter(animal =>
-    animal.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  }, [type]);
 
   return (
     <div className="search-filter">
@@ -36,7 +32,7 @@ function Gallery() {
         onChange={e => setSearchTerm(e.target.value)} 
       />
       <div className="animal-gallery">
-        {filteredAnimals.map(animal => (
+        {animals.map(animal => (
           <AnimalCard key={animal.id} animal={animal} />
         ))}
       </div>

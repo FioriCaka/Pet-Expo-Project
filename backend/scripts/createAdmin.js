@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const User = require('./models/user'); 
-const mongoURI = 'mongodb://localhost:27017/petexpo/admin'; 
+const Admin = require('../models/Admin'); 
+const mongoURI = 'mongodb://localhost:27017/petexpo'; 
 
 const createAdmin = async () => {
-  const hashedPassword = await bcrypt.hash('fiori267', 12); 
-  const admin = new User({
+  const admin = new Admin({
     username: 'admin',
-    password: hashedPassword,
+    password: 'asdasd',
     role: 'admin'
   });
 

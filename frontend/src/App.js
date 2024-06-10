@@ -7,9 +7,16 @@ import ContactUs from './components/ContactUs';
 import AddAnimal from './components/AddAnimal';
 import Login from './components/Login';
 import Admin from './components/Admin';
+import api from './api';
 
-function App() {
+
+const App = () =>{
   const [token, setToken] = useState('');
+
+  const handleLogin = (token) => {
+    setToken(token);
+    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  };
 
   return (
     <Router>
@@ -19,7 +26,7 @@ function App() {
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/add" element={<AddAnimal token={token} />} />
-        <Route path="/login" element={<Login setToken={setToken} />} />
+        <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/admin" element={<Admin token={token} />} />
       </Routes>
     </Router>

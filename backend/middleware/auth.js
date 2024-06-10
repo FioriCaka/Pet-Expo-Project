@@ -1,17 +1,17 @@
 const jwt = require('jsonwebtoken');
-const User = require('../models/user');
+const Admin = require('../models/Admin');
 
 const auth = async (req, res, next) => {
   try {
     const token = req.header('Authorization').replace('Bearer ', '');
     const decoded = jwt.verify(token, 'your_jwt_secret');
-    const user = await User.findOne({ _id: decoded._id });
+    const Admin = await Admin.findOne({ _id: decoded._id });
 
-    if (!user) {
+    if (!Admin) {
       throw new Error();
     }
 
-    req.user = user;
+    req.Admin = Admin;
     next();
   } catch (e) {
     res.status(401).send({ error: 'Please authenticate.' });

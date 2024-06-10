@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 import AnimalCard from './AnimalCard';
 import AddAnimal from './AddAnimal';
 
@@ -7,22 +7,17 @@ function Admin({ token }) {
   const [animals, setAnimals] = useState([]);
   const [type, setType] = useState('cats');
 
-  useEffect(() => {
-    fetchAnimals();
-  }, [type]);
-
   const fetchAnimals = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/api/animals/${type}`);
+      const response = await api.get(`/animals/${type}`);
       setAnimals(response.data);
     } catch (error) {
       console.error(error);
     }
   };
-
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/animals/${type}/${id}`, {
+      await api.delete(`/animals/${type}/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchAnimals();

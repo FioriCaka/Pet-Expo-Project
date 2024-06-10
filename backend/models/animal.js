@@ -19,6 +19,6 @@ const animalSchema = new mongoose.Schema({
   },
 });
 
-const Animal = mongoose.model('animal', animalSchema);
+const Animal = mongoose.model('Animal', animalSchema);
 
-module.exports = Animal;
+module.exports = Animal
