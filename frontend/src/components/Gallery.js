@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import api from '../api';
-import AnimalCard from './AnimalCard';
+import api from '../api.js';
+import AnimalCard from './AnimalCard.js';
 
 function Gallery() {
   const [animals, setAnimals] = useState([]);
