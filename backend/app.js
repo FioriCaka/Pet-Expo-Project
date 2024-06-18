@@ -1,13 +1,16 @@
-require('dotenv').config(); 
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const animalRoutes = require('./routes/animals');
-const authRoutes = require('./routes/auth');
+import express from "express";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
+import animalRoutes from "./routes/animals.js";
+import authRoutes from "./routes/auth.js";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 
 const app = express();
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT
 
 app.use(bodyParser.json);
 app.use(cors({
@@ -15,18 +18,22 @@ app.use(cors({
   credentials: true
 }));
 
-app.use('./api/animals', animalRoutes);
-app.use('./api/auth', authRoutes);
+app.use('/api/animals', animalRoutes);
+app.use('/api/login', authRoutes);
 
-mongoose.connect('mongodb://localhost:27017/petexpo', { 
-  useNewUrlParser: true,
-  useUnifiedTopology: true 
-}).then(() => {
-  console.log('Connected to MongoDB');
-}).catch((error) => {
-  console.error('Error connecting to MongoDB', error);
-});
+const connect = () => { 
+  mongoose
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+      console.log('Connected to MongoDB');
+    })
+    .catch((error) => {
+      console.error('Error connecting to MongoDB', error);
+    });
+};
 
 app.listen(PORT, () => {
+  connect();
+  
   console.log(`Server is running on port ${PORT}`);
 });

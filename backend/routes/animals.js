@@ -1,13 +1,13 @@
-const express = require('express');
-const animalsController = require('../controllers/animalsController');
-const auth = require('../middleware/auth');
+import express from 'express';
+import {createAnimal, getAllAnimals, updateAnimal, deleteAnimal, searchAnimals} from '../controllers/animalsController.js';
+import { auth } from '../controllers/authController.js'
 
 const router = express.Router();
 
-router.post('/', auth, animalsController.createAnimal);
-router.get('/', animalsController.getAllAnimals);
-router.put('/:id', auth, animalsController.updateAnimal);
-router.delete('/:id', auth,animalsController.deleteAnimal);
-router.get('/search/:type', animalsController.searchAnimals);
+router.post('/', auth, createAnimal);
+router.get('/', getAllAnimals);
+router.put('/:id', auth, updateAnimal);
+router.delete('/:id', auth, deleteAnimal);
+router.get('/search/:type', searchAnimals);
 
-module.exports = router;
+export default router;

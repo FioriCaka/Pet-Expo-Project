@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const animalSchema = new mongoose.Schema({
   name: {
@@ -19,6 +19,5 @@ const animalSchema = new mongoose.Schema({
   },
 });
 
-const Animal = mongoose.model('Animal', animalSchema);
 
-module.exports = Animal
+export default mongoose.model('Animal', animalSchema)

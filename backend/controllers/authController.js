@@ -1,27 +1,46 @@
-const Admin = require('../models/Admin');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const { getAdmin } = require('../db');
+import Admin from '../models/Admin.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import { createError } from '../error.js';
 
-exports.login = async (req, res) => {
-  const { username, password } = req.body;
+
+export const login = async (req, res, next) => {
 
   try { 
-    const admin = await getAdmin({ username });
-    if (!admin) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
-      
-    const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: 'Invalid username or password' });
-    }
-
-    const token = jwt.sign({ _id: admin._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
+    const admin = await Admin.findOne({name:req.body.name})
+    if(!admin) return next(createError(404, "User not found!"))
+    
+    const isCorrect = await bcrypt.compare(req.body.password, admin.password)
+    if(!isCorrect) return next(createError(400, "Wrong credentials!"))    
+    
+    const token = jwt.sign({id:admin._id}, proccess.env.JWT)
+    const {password, ...others} = admin._doc
+    
+    res 
+    .cookie("access_token", token, {
+        httpOnly:true
+    })
+    .status(200)
+    .json(others)
 
   } catch (err) {
-    console.error('Error during login:', err);
-    res.status(500).json({ message: err.message });
+      next(err)
+  }
+};
+
+export const auth = async (req, res, next) => {
+  try {
+    const token = req.header('Authorization').replace('Bearer ', '');
+    const decoded = jwt.verify(token, 'your_jwt_secret');
+    const Admin = await Admin.findOne({ _id: decoded._id });
+
+    if (!Admin) {
+      throw new Error();
+    }
+
+    req.Admin = Admin;s
+    next();
+  } catch (e) {
+    res.status(401).send({ error: 'Please authenticate.' });
   }
 };

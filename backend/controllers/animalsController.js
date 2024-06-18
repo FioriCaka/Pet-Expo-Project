@@ -1,7 +1,6 @@
-const Animal = require('../models/Animal');
-const { getAnimals } = require('../db');
+import Animal from '../models/animal.js';
 
-exports.createAnimal = async (req, res) => {
+export const createAnimal = async (req, res) => {
   const { name, origin, type, imageBase64 } = req.body;
   const animal = new Animal({ name, origin, type, imageBase64 });
   
@@ -14,7 +13,7 @@ exports.createAnimal = async (req, res) => {
   
 };
 
-exports.getAllAnimals = async (req, res) => {
+export const getAllAnimals = async (req, res) => {
   const { type } = req.query;
   
   try{
@@ -25,7 +24,7 @@ exports.getAllAnimals = async (req, res) => {
   }
 };
 
-exports.updateAnimal = async (req, res) => {
+export const updateAnimal = async (req, res) => {
   try {
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: 'Animal not found' });
@@ -38,7 +37,7 @@ exports.updateAnimal = async (req, res) => {
   }
 };
 
-exports.deleteAnimal = async (req, res) => {
+export const deleteAnimal = async (req, res) => {
   try{
     const animal = await Animal.findById(req.params.id);
     if (!animal) return res.status(404).json({ message: 'Animal not found' });
@@ -51,7 +50,7 @@ exports.deleteAnimal = async (req, res) => {
     
 };
 
-exports.searchAnimals = async (req, res) => {
+export const searchAnimals = async (req, res) => {
   const { type } = req.params;
   const { name } = req.query;
   const animals = await Animal.find({ type, name: new RegExp(name, 'i') });

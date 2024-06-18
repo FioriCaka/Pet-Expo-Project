@@ -1,24 +1,19 @@
-const mongoose = require('mongoose');
-const Admin = require('../models/Admin'); 
-const mongoURI = 'mongodb://localhost:27017/petexpo'; 
+import mongoose from 'mongoose';
+import Admin from '../models/Admin.js'; 
+import { createError } from '../error.js';
+import bcrypt from 'bcryptjs'
 
-const createAdmin = async () => {
-  const admin = new Admin({
-    username: 'admin',
-    password: 'asdasd',
-    role: 'admin'
-  });
+export const signup = async (req, res, next) => {
+ 
+  try{
+      const salt = bcrypt.genSaltSync(10)
+      const hash = bcrypt.hashSync(req.body.password, salt)
+      const newUser = new Admin({...req.body, password: hash})
 
-  await admin.save();
-  console.log('Admin user created!');
-};
+      await newUser.save()
+      res.status(200).send("Admin created")
+  }catch(err){
+      next(err)
+  }
+}
 
-mongoose.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(async () => {
-    console.log('Connected to MongoDB');
-    await createAdmin();
-    mongoose.disconnect();
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB', err);
-  });
